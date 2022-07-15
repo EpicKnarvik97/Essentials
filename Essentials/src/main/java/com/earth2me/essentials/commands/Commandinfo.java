@@ -4,6 +4,9 @@ import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.textreader.KeywordReplacer;
 import com.earth2me.essentials.textreader.TextInput;
 import com.earth2me.essentials.textreader.TextPager;
+import com.earth2me.essentials.textreader.IText;
+import com.earth2me.essentials.User;
+import java.util.List;
 import org.bukkit.Server;
 
 public class Commandinfo extends EssentialsCommand {
@@ -19,5 +22,15 @@ public class Commandinfo extends EssentialsCommand {
 
         final TextPager pager = new TextPager(new KeywordReplacer(new TextInput(sender, "info", true, ess), sender, ess));
         pager.showPage(args.length > 0 ? args[0] : null, args.length > 1 ? args[1] : null, commandLabel, sender);
+    }
+    
+    @Override
+    protected List<String> getTabCompleteOptions(final Server server, final User user, final String commandLabel, final String[] args) {
+        if (args.length == 1) {
+            IText infoText = new TextInput(sender, "info", true, ess);
+            return infoText.getChapters();
+        } else {
+            return null;
+        }
     }
 }
