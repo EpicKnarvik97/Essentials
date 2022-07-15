@@ -6,6 +6,9 @@ import com.earth2me.essentials.textreader.TextInput;
 import com.earth2me.essentials.textreader.TextPager;
 import com.earth2me.essentials.textreader.IText;
 import com.earth2me.essentials.User;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Server;
 
@@ -25,12 +28,18 @@ public class Commandinfo extends EssentialsCommand {
     }
     
     @Override
-    protected List<String> getTabCompleteOptions(final Server server, final User user, final String commandLabel, final String[] args) {
+    protected List<String> getTabCompleteOptions(final Server server, final User user, final String commandLabel, 
+                                                 final String[] args) {
         if (args.length == 1) {
-            IText infoText = new TextInput(sender, "info", true, ess);
+            final IText infoText;
+            try {
+                infoText = new TextInput(user.getSource(), "info", true, ess);
+            } catch (IOException e) {
+                return null;
+            }
             return infoText.getChapters();
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 }
